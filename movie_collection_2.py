@@ -7,12 +7,12 @@ from io import BytesIO
 import tkinter as tk
 import json
 from tkinter.scrolledtext import ScrolledText
-from tkinter import ttk, messagebox
+from tkinter import ttk, messagebox, filedialog
 from genres import genre_id_list
 import webbrowser
-
 API_KEY = "20f3d33b09ca122983eff57b3a146602"
 db_file = "movies_db.json"
+print_file = "movies_print.txt"
 
 class MovieApp(tb.Window):
     def __init__(self):
@@ -55,6 +55,9 @@ class MovieApp(tb.Window):
 
         self.add_btn = tk.Button(self.list_frame, text="Add Movie by ID", command=self.add_movie_by_id)
         self.add_btn.pack(pady=5)
+
+        self.print_btn = tk.Button(self.list_frame, text="Print Movie List", command=lambda: self.print_movie_list(self.filtered_movies))
+        self.print_btn.pack(pady=5)
 
         self.genre_cbo = tb.Combobox(self.list_frame, values=self.GENRES, state="readonly")
         self.genre_cbo.current(self.GENRES.index("All Genres"))
@@ -154,6 +157,19 @@ class MovieApp(tb.Window):
 
         # display list of movies
         self.load_movie_list()
+
+    def print_movie_list(self, movie_data):
+        with open(print_file, "w") as f:
+            for item in genre_id_list:
+                if item["name"] != "All Genres":
+                    text = "\n-------------------\n>>>> " + item["name"] + " <<<<\n-------------------\n"
+                    f.write(text)
+                    for movie in movie_data:
+                        if item["id"] in movie["genre_ids"]:
+                            title = f"{movie['title']} ({movie['year']})\n"
+                            f.write(title)
+
+        messagebox.showinfo("Printed", "List Saved to File")
 
     def add_movie_to_file(self, movie_data):
         movies = []
