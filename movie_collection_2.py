@@ -30,7 +30,7 @@ class MovieApp(tb.Window):
         self.poster_image = None
         self.watched_var = tb.BooleanVar(value=False)
         self.db_watched_var = tb.BooleanVar(value=False)
-
+        
         self.my_style = ttk.Style()
         self.my_style.configure("Dynamic.TLabel", foreground="green")  # Initial color
         self.my_style.configure("TCheckbutton", indicatorbackground="black", indicatorforeground="white",
@@ -164,10 +164,10 @@ class MovieApp(tb.Window):
                 if item["name"] != "All Genres":
                     text = "\n-------------------\n>>>> " + item["name"] + " <<<<\n-------------------\n"
                     f.write(text)
-                    for movie in movie_data:
-                        if item["id"] in movie["genre_ids"]:
-                            title = f"{movie['title']} ({movie['year']})\n"
-                            f.write(title)
+                for movie in movie_data:
+                    if item["id"] in movie["genre_ids"]:
+                        title = f"{movie['title']} ({movie['year']})\n"
+                        f.write(title)
 
         messagebox.showinfo("Printed", "List Saved to File")
 
@@ -461,15 +461,18 @@ class MovieApp(tb.Window):
         self.desc_box.pack(pady=5)
         self.desc_box.config(state="disabled")
 
-    def save_and_exit(self):
-        print(f"saving db file")
-        with open(db_file, "w") as outfile:
-            json.dump(self.all_movies, outfile)
-        messagebox.showinfo("Data Saved", "Movie DB Saved")
-        self.destroy()
+    # def save_and_exit(self):
+        # print(f"saving db file")
+        # with open(db_file, "w") as outfile:
+            # json.dump(self.all_movies, outfile)
+        # messagebox.showinfo("Data Saved", "Movie DB Saved")
+        # self.destroy()
 
-
-if __name__ == "__main__":
+def main():
     app = MovieApp()
-    app.protocol("WM_DELETE_WINDOW", app.save_and_exit)
     app.mainloop()
+        
+        
+if __name__ == "__main__":
+    main()
+    
