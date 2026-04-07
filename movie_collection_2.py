@@ -159,7 +159,6 @@ class MovieApp(tb.Window):
         # display list of movies
         self.load_movie_list()
 
-/home/keith/PythonProjects/MyMovieDB/.idea
     def create_html_file(self, movie_data):
          with open(html_file, "w") as f:
             for item in genre_id_list:
