@@ -13,6 +13,7 @@ import webbrowser
 API_KEY = "20f3d33b09ca122983eff57b3a146602"
 db_file = "movies_db.json"
 print_file = "movies_print.txt"
+html_file = "movies.html"
 
 class MovieApp(tb.Window):
     def __init__(self):
@@ -158,7 +159,25 @@ class MovieApp(tb.Window):
         # display list of movies
         self.load_movie_list()
 
+/home/keith/PythonProjects/MyMovieDB/.idea
+    def create_html_file(self, movie_data):
+         with open(html_file, "w") as f:
+            for item in genre_id_list:
+                if item["name"] != "All Genres":
+                    tag = item["name"].lower().replace(" ", "_")
+                    
+                    text = f"<h3 id={tag}> {item["name"]} </h3><ul>"
+                    f.write(text)
+                    for movie in movie_data:
+                        if item["id"] in movie["genre_ids"]:
+                            title = f"<li>{movie['title']} ({movie['year']})</li>"
+                            f.write(title)
+
+                    f.write("</ul>")
+                
     def print_movie_list(self, movie_data):
+        self.create_html_file(movie_data)
+        
         with open(print_file, "w") as f:
             for item in genre_id_list:
                 if item["name"] != "All Genres":
